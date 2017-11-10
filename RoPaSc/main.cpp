@@ -16,12 +16,15 @@ void stat();
 int win, loss, tie;
 char menu;
 
+bool normal=true, hard=false, impossible=false, simpossible=false;
+
 char player;
 char rock='a';
 char paper='s';
 char scissors='d';
 
 int bot;
+int chance;
 int brock=0;
 int bpaper=1;
 int bscissors=2;
@@ -59,7 +62,78 @@ void game() {
     srand (time(NULL));
     cout << "Rock, Paper, Scissors..." << endl;
     cin >> player;
-    bot=rand()%3;
+    if (normal) {
+        bot=rand()%3;
+    }
+    if (hard) {
+        if (player==rock) {
+            chance=rand()%3;
+            if (chance==0 || chance==1) {
+                bot=rand()%3;
+            }
+            if (chance==2) {
+                bot=bpaper;
+            }
+        }
+        if (player==paper) {
+            chance=rand()%3;
+            if (chance==0 || chance==1) {
+                bot=rand()%3;
+            }
+            if (chance==2) {
+                bot=bscissors;
+            }
+        }
+        if (player==scissors) {
+            chance=rand()%3;
+            if (chance==0 || chance==1) {
+                bot=rand()%3;
+            }
+            if (chance==2) {
+                bot=brock;
+            }
+        }
+    }
+    if (impossible) {
+        if (player==rock) {
+            chance=rand()%3;
+            if (chance==0) {
+                bot=rand()%3;
+            }
+            if (chance==2 || chance==1) {
+                bot=bpaper;
+            }
+        }
+        if (player==paper) {
+            chance=rand()%3;
+            if (chance==0) {
+                bot=rand()%3;
+            }
+            if (chance==2 || chance==1) {
+                bot=bscissors;
+            }
+        }
+        if (player==scissors) {
+            chance=rand()%3;
+            if (chance==0) {
+                bot=rand()%3;
+            }
+            if (chance==2 || chance==1) {
+                bot=brock;
+            }
+        }
+    }
+    if (simpossible) {
+        if (player==rock) {
+            bot=bpaper;
+        }
+        if (player==paper) {
+            bot=bscissors;
+        }
+        if (player==scissors) {
+            bot=brock;
+        }
+    }
     if (player==rock && bot==brock) {
         cout << "Shoot!" << endl;
         getchar();
@@ -226,9 +300,10 @@ void game() {
 
 void set() {
     cout << ANSI_TEXT_BOLD"SETTINGS" << endl;
-    cout << ANSI_COLOR_RESET"Reset Stats    (a)" << endl;
-    cout << "Set choices    (s)" << endl;
-    cout << "Return to menu (q)" << endl;
+    cout << ANSI_COLOR_RESET"Reset Stats             (a)" << endl;
+    cout << "Set choices             (s)" << endl;
+    cout << "Set Computer Difficulty (d)" << endl;
+    cout << "Return to menu          (q)" << endl;
     cin >> menu;
     if (menu=='a') {
         cout << ANSI_TEXT_BOLD"[SETTINGS]"
@@ -411,11 +486,172 @@ void set() {
             return set();
         }
     }
+    if (menu=='d') {
+        cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                "\n     > Computer Difficulty" << endl;
+        cout << ANSI_COLOR_RESET"What do you want the computer's difficulty to be set to?" << endl;
+        if (normal && !hard && !impossible && !simpossible) {
+            cout << "The difficulty is already set to 'Normal'" << endl;
+        }
+        if (!normal && hard && !impossible && !simpossible) {
+            cout << "The difficulty is already set to 'Hard'" << endl;
+        }
+        if (!normal && !hard && impossible && !simpossible) {
+            cout << "The difficulty is already set to 'Impossible'" << endl;
+        }
+        if (!normal && !hard && !impossible && simpossible) {
+            cout << "The difficulty is already set to 'Super Impossible'" << endl;
+        }
+        cout << "Normal      (a)"
+                "\nHard        (s)"
+                "\nImpossible  (d)" << endl;
+        cout << "Exit 'Computer"
+                "\nDifficulty' (q)" << endl;
+        cin >> menu;
+        if (menu=='a') {
+            cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                    "\n     > [Computer Difficulty]"
+                    "\n         > Normal?" << endl;
+            cout << ANSI_COLOR_RESET"Normal: The Computer randomly picks"
+                    "\nRock, Paper, or Scissors" << endl;
+            cout << "Are you sure you want to set the computer's difficulty to 'Normal'? (y/n)" << endl;
+            cin >> menu;
+            if (menu=='y') {
+                getchar();
+                normal=true;
+                hard=false;
+                impossible=false;
+                cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                        "\n     > [Computer Difficulty]"
+                        "\n         > [Normal?]"
+                        "\n             > Difficulty changed!" << endl;
+                cout << ANSI_COLOR_RESET"The difficulty has been changed to 'Normal'" << endl;
+                getchar();
+                return set();
+            }
+            if (menu!='y') {
+                getchar();
+                cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                        "\n     > [Computer Difficulty]"
+                        "\n         > [Normal?]"
+                        "\n             > Change cancelled" << endl;
+                cout << ANSI_COLOR_RESET"Difficulty change cancelled" << endl;
+                getchar();
+                return set();
+            }
+        }
+        if (menu=='s') {
+            cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                    "\n     > [Computer Difficulty]"
+                    "\n         > Hard?" << endl;
+            cout << ANSI_COLOR_RESET"Hard: The Computer is slightly more "
+                    "\ninclined to pick whatever can defeated"
+                    "\nyour choice" << endl;
+            cout << "Are you sure you want to set the computer's difficulty to 'Hard'? (y/n)" << endl;
+            cin >> menu;
+            if (menu=='y') {
+                getchar();
+                normal=false;
+                hard=true;
+                impossible=false;
+                cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                        "\n     > [Computer Difficulty]"
+                        "\n         > [Hard?]"
+                        "\n             > Difficulty changed!" << endl;
+                cout << ANSI_COLOR_RESET"The difficulty has been changed to 'Hard'" << endl;
+                getchar();
+                return set();
+            }
+            if (menu!='y') {
+                getchar();
+                cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                        "\n     > [Computer Difficulty]"
+                        "\n         > [Hard?]"
+                        "\n             > Change cancelled" << endl;
+                cout << ANSI_COLOR_RESET"Difficulty change cancelled" << endl;
+                getchar();
+                return set();
+            }
+        }
+        if (menu=='d') {
+            cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                    "\n     > [Computer Difficulty]"
+                    "\n         > Impossible?" << endl;
+            cout << ANSI_COLOR_RESET"Impossible: The Computer is more inclined"
+                    "\nto pick whatever can defeated your"
+                    "\nchoice" << endl;
+            cout << "Are you sure you want to set the computer's difficulty to 'Impossible'? (y/n)" << endl;
+            cin >> menu;
+            if (menu=='y') {
+                getchar();
+                normal=false;
+                hard=false;
+                impossible=true;
+                cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                        "\n     > [Computer Difficulty]"
+                        "\n         > [Impossible?]"
+                        "\n             > Difficulty changed!" << endl;
+                cout << ANSI_COLOR_RESET"The difficulty has been changed to 'Impossible'" << endl;
+                getchar();
+                cout << "Good Luck, you're gonna need it." << endl;
+                getchar();
+                return set();
+            }
+            if (menu!='y') {
+                getchar();
+                cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                        "\n     > [Computer Difficulty]"
+                        "\n         > [Impossible?]"
+                        "\n             > Change cancelled" << endl;
+                cout << ANSI_COLOR_RESET"Difficulty change cancelled" << endl;
+                getchar();
+                return set();
+            }
+        }
+        if (menu=='f') {
+            cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                    "\n     > [Computer Difficulty]"
+                    ANSI_COLOR_RED ANSI_TEXT_BOLD"\n         > Super Impossible?!" << endl;
+            cout << ANSI_COLOR_RESET"Super Impossible: If you win, you hacked"
+                    "\nthe game" << endl;
+            cout << "Are you sure you want to set the computer's difficulty to 'Super Impossible'?! (y/n)" << endl;
+            cin >> menu;
+            if (menu=='y') {
+                getchar();
+                normal=false;
+                hard=false;
+                impossible=false;
+                simpossible=true;
+                cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                        "\n     > [Computer Difficulty]"
+                        ANSI_COLOR_RED ANSI_TEXT_BOLD"\n         > [Super Impossible?!]"
+                        ANSI_COLOR_RESET ANSI_TEXT_BOLD"\n             > Difficulty changed!" << endl;
+                cout << ANSI_COLOR_RESET"The difficulty has been changed to 'Super Impossible'" << endl;
+                getchar();
+                cout << "Don't come crying to me if you lose!" << endl;
+                getchar();
+                return set();
+            }
+            if (menu!='y') {
+                getchar();
+                cout << ANSI_TEXT_BOLD"[SETTINGS] "
+                        "\n     > [Computer Difficulty]"
+                        ANSI_COLOR_RED ANSI_TEXT_BOLD"\n         > [Super Impossible?]"
+                        ANSI_COLOR_RESET ANSI_TEXT_BOLD"\n             > Change cancelled" << endl;
+                cout << ANSI_COLOR_RESET"Difficulty change cancelled. Smart move." << endl;
+                getchar();
+                return set();
+            }
+        }
+        if (menu=='q') {
+            return set();
+        }
+    }
 }
 
 void help() {
-    cout << "HELP" << endl;
-    cout << "'Rock, Paper, Scissors' works the same"
+    cout << ANSI_TEXT_BOLD"HELP" << endl;
+    cout << ANSI_COLOR_RESET"'Rock, Paper, Scissors' works the same"
             "\nway the game works in real life" << endl;
     getchar();
     cout << "To choose one, pick 'Rock', 'Paper', or"
@@ -439,8 +675,8 @@ void help() {
 
 void stat() {
     getchar();
-    cout << "STATS" << endl;
-    cout << "Wins:   " << win << endl;
+    cout << ANSI_TEXT_BOLD"STATS" << endl;
+    cout << ANSI_COLOR_RESET"Wins:   " << win << endl;
     cout << "Losses: " << loss << endl;
     cout << "Ties:   " << tie << endl;
     cout << "Press 'Enter' to return to the Main Menu" << endl;
