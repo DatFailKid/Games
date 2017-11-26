@@ -8,6 +8,8 @@
 
 using namespace std;
 
+void mainmenu();
+
 void game();
 void set();
 void help();
@@ -30,8 +32,14 @@ int bpaper=1;
 int bscissors=2;
 
 int main() {
-    cout << ANSI_COLOR_RESET"Rock Paper Scissors!" << endl;
-    cout << "Play         (a)"
+    cout << ANSI_TEXT_BOLD ANSI_COLOR_RED"DatFailKid";
+    cout << ANSI_COLOR_RESET" Presents..." << endl;
+    getchar();
+    mainmenu();
+}
+void mainmenu() {
+    cout << ANSI_TEXT_BOLD"Rock Paper Scissors!" << endl;
+    cout << ANSI_COLOR_RESET"Play         (a)"
             "\nSettings     (s)"
             "\nInstructions (d)"
             "\nStats        (w)" << endl;
@@ -52,7 +60,6 @@ int main() {
         cout << "Getting Stats..." << endl;
         stat();
     }
-    return 0;
 }
 
 void game() {
@@ -149,7 +156,7 @@ void game() {
         if (menu!='y') {
             cout << "I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
     }
     if (player==rock && bot==bpaper) {
@@ -167,7 +174,7 @@ void game() {
         if (menu!='y') {
             cout << "I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
     }
     if (player==rock && bot==bscissors) {
@@ -185,7 +192,7 @@ void game() {
         if (menu!='y') {
             cout << "I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
     }
     if (player==paper && bot==bscissors) {
@@ -203,7 +210,7 @@ void game() {
         if (menu!='y') {
             cout << "I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
     }
     if (player==paper && bot==bpaper) {
@@ -221,7 +228,7 @@ void game() {
         if (menu!='y') {
             cout << "I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
     }
     if (player==paper && bot==brock) {
@@ -239,7 +246,7 @@ void game() {
         if (menu!='y') {
             cout << "I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
     }
     if (player==scissors && bot==brock) {
@@ -257,7 +264,7 @@ void game() {
         if (menu!='y') {
             cout << "I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
     }
     if (player==scissors && bot==bpaper) {
@@ -273,9 +280,9 @@ void game() {
             return game();
         }
         if (menu!='y') {
-            cout << "I'm assuming you mean 'no'" << endl;
+            cout << ANSI_COLOR_RESET"I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
     }
     if (player==scissors && bot==bscissors) {
@@ -293,53 +300,134 @@ void game() {
         if (menu!='y') {
             cout << "I'm assuming you mean 'no'" << endl;
             getchar();
-            main();
+            mainmenu();
         }
+    }
+    if (player!=scissors && player!=paper &&player!=rock) {
+        getchar();
+        cout << ANSI_COLOR_RESET"That is not a valid choice." << endl;
+        getchar();
+        return game();
     }
 }
 
 void set() {
     cout << ANSI_TEXT_BOLD"SETTINGS" << endl;
-    cout << ANSI_COLOR_RESET"Reset Stats             (a)" << endl;
+    cout << ANSI_COLOR_RESET"Reset                   (a)" << endl;
     cout << "Set choices             (s)" << endl;
     cout << "Set Computer Difficulty (d)" << endl;
     cout << "Return to menu          (q)" << endl;
     cin >> menu;
     if (menu=='a') {
         cout << ANSI_TEXT_BOLD"[SETTINGS]"
-                "\n    > Reset Stats" << endl;
-        cout << ANSI_COLOR_RESET"Are you sure you want to reset your Stats? (y/n)" << endl;
+                "\n    > Reset " << endl;
+        cout << ANSI_COLOR_RESET"What do you want to reset?" << endl;
+        cout << "Choice Controls   (a)" << endl;
+        cout << "Stats             (s)" << endl;
+        cout << "Choices and Stats (d)" << endl;
+        cout << "Exit 'Reset'      (q)" << endl;
         cin >> menu;
-        if (menu=='y') {
-            win=0;
-            loss=0;
-            tie=0;
-            if (win==0 && loss==0 && tie==0) {
+        if (menu=='a') {
+            cout << ANSI_TEXT_BOLD"[SETTINGS]"
+                    "\n     > [RESET]"
+                    "\n         > Sure?" << endl;
+            cout << ANSI_COLOR_RESET"Are you sure you want to reset your"
+                    "\nchoice controls to default? (y/n)" << endl;
+            cin >> menu;
+            if (menu=='y') {
+                rock='a', paper='s', scissors='d';
+                if (rock=='a' && paper=='s' && scissors=='d') {
+                    getchar();
+                    cout << ANSI_TEXT_BOLD"[SETTINGS]"
+                            "\n     > [RESET]"
+                            "\n         > [SURE?]"
+                            "\n             > Controls reset" << endl;
+                    cout << ANSI_COLOR_RESET"Controls reset!" << endl;
+                    getchar();
+                    return set();
+                }
+            }
+            if (menu!='y') {
+                getchar();
                 cout << ANSI_TEXT_BOLD"[SETTINGS]"
-                        "\n    > [Reset Stats]"
-                        "\n        > Yes" << endl;
-                cout << ANSI_COLOR_RESET"Your stats have been reset" << endl;
+                        "\n     > [RESET]"
+                        "\n         > [SURE?]"
+                        "\n             > Controls reset Cancelled" << endl;
+                cout << ANSI_COLOR_RESET"Your Controls have not been reset" << endl;
+                getchar();
                 return set();
             }
         }
-        if (menu=='n') {
+        if (menu=='s') {
             cout << ANSI_TEXT_BOLD"[SETTINGS]"
-                    "\n    > [Reset Stats]"
-                    "\n        > No" << endl;
-            cout << ANSI_COLOR_RESET"Stat reset cancelled" << endl;
-            return set();
+                    "\n     > [RESET]"
+                    "\n         > Sure?" << endl;
+            cout << ANSI_COLOR_RESET"Are you sure you want to reset your"
+                    "\nstats? (y/n)" << endl;
+            cin >> menu;
+            if (menu=='y') {
+                win=0, loss=0, tie=0;
+                if (win==0 && loss==0 && tie==0) {
+                    getchar();
+                    cout << ANSI_TEXT_BOLD"[SETTINGS]"
+                            "\n     > [RESET]"
+                            "\n         > [SURE?]"
+                            "\n             > Stats reset" << endl;
+                    cout << ANSI_COLOR_RESET"Stats reset!" << endl;
+                    getchar();
+                    return set();
+                }
+            }
+            if (menu!='y') {
+                getchar();
+                cout << ANSI_TEXT_BOLD"[SETTINGS]"
+                        "\n     > [RESET]"
+                        "\n         > [SURE?]"
+                        "\n             > Stats reset Cancelled" << endl;
+                cout << ANSI_COLOR_RESET"Your Stats have not been reset" << endl;
+                getchar();
+                return set();
+            }
         }
-        if (menu!='y' && menu!='n') {
+        if (menu=='d') {
             cout << ANSI_TEXT_BOLD"[SETTINGS]"
-                    "\n    > [Reset Stats]"
-                    "\n        > No?" << endl;
-            cout << ANSI_COLOR_RESET"I do not know what that means..." << endl;
+                    "\n     > [RESET]"
+                    "\n         > Sure?" << endl;
+            cout << ANSI_COLOR_RESET"Are you sure you want to reset your"
+                    "\nStats AND set your choice controls to default? (y/n)" << endl;
+            cin >> menu;
+            if (menu=='y') {
+                rock='a', paper='s', scissors='d';
+                tie=0, win=0, loss=0;
+                if (rock=='a' && paper=='s' && scissors=='d' & tie==0 && loss==0 && win==0) {
+                    getchar();
+                    cout << ANSI_TEXT_BOLD"[SETTINGS]"
+                            "\n     > [RESET]"
+                            "\n         > [SURE?]"
+                            "\n             > reset Complete" << endl;
+                    cout << ANSI_COLOR_RESET"Controls and Stats reset!" << endl;
+                    getchar();
+                    return set();
+                }
+            }
+            if (menu!='y') {
+                getchar();
+                cout << ANSI_TEXT_BOLD"[SETTINGS]"
+                        "\n     > [RESET]"
+                        "\n         > [SURE?]"
+                        "\n             > Reset Cancelled" << endl;
+                cout << ANSI_COLOR_RESET"Your Controls and Stats have not been reset" << endl;
+                getchar();
+                return set();
+            }
+        }
+        if (menu=='q') {
             return set();
         }
     }
     if (menu=='q') {
         cout << "Returning to Menu..." << endl;
-        main();
+        mainmenu();
     }
     if (menu=='s') {
         cout << ANSI_TEXT_BOLD"[SETTINGS]"
@@ -545,7 +633,7 @@ void set() {
                     "\n     > [Computer Difficulty]"
                     "\n         > Hard?" << endl;
             cout << ANSI_COLOR_RESET"Hard: The Computer is slightly more "
-                    "\ninclined to pick whatever can defeated"
+                    "\ninclined to pick whatever can defeat"
                     "\nyour choice" << endl;
             cout << "Are you sure you want to set the computer's difficulty to 'Hard'? (y/n)" << endl;
             cin >> menu;
@@ -578,7 +666,7 @@ void set() {
                     "\n     > [Computer Difficulty]"
                     "\n         > Impossible?" << endl;
             cout << ANSI_COLOR_RESET"Impossible: The Computer is more inclined"
-                    "\nto pick whatever can defeated your"
+                    "\nto pick whatever can defeat your"
                     "\nchoice" << endl;
             cout << "Are you sure you want to set the computer's difficulty to 'Impossible'? (y/n)" << endl;
             cin >> menu;
@@ -670,7 +758,7 @@ void help() {
             "\nthe computer, your stats will be reset"
             "\nwhen you exit the game." << endl;
     getchar();
-    main();
+    mainmenu();
 }
 
 void stat() {
@@ -681,5 +769,5 @@ void stat() {
     cout << "Ties:   " << tie << endl;
     cout << "Press 'Enter' to return to the Main Menu" << endl;
     getchar();
-    main();
+    mainmenu();
 }
